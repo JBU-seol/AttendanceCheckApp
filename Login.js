@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, StatusBar, TextInput, TouchableOpacity,
 Dimensions } from 'react-native';
-import {getMacAddress} from 'react-native-device-info';
 
 const {width, height} = Dimensions.get("window");
 

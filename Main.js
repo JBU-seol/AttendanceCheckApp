@@ -1,147 +1,212 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, Platform, Animated, LayoutAnimation, UIManager } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient'
+import React from 'react';
+import {StyleSheet, View, Text, Dimensions, Image, TouchableOpacity} from 'react-native';
 
-import menu from './assets/menubutton.png'
+import picturelogo from './assets/jbu_logo-removebg-preview.png';
+import textlogo from './assets/jbu_kr-removebg-preview.png';
+import schedule from './assets/schedule.png';
+import lecturechoice from './assets/lecturechoice.png';
+import qrcode from './assets/qrcode.png';
+import notice from './assets/notice.png';
+import question from './assets/question2.png';
+import qna from './assets/qna.png';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator} from 'react-navigation-stack';
 
 const {width, height} = Dimensions.get("window");
 
-if (
-    Platform.OS === "android" &&
-    UIManager.setLayoutAnimationEnabledExperimental
-  ) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
-
-export default class Main extends React.Component {
-    state = {
-        isViewing : false,
-        fadeAnim: new Animated.Value(0)
-    }
-
-    _togglefunc = () => {
-        const { isViewing } = this.state;
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-        this.setState(prevState => {
-            return {
-            isViewing: !prevState.isViewing
-            };
-        })
-    }
-
+class Home extends React.Component{
+    static navigationOptions={
+        header: null
+    };
     render() {
         return (
-            <LinearGradient style={styles.container} colors={['#FEE1B3', '#ffffff']} >
-                <View style={styles.topcard}>
-                    <TouchableOpacity onPress={this._togglefunc}>
-                        <Image style={{ width: 50, height: 50, marginTop: 30 }}
-                            source={menu} />
-                    </TouchableOpacity>
-                    <Text style={styles.title}>
-                        Attendance Check
-                    </Text>
+            <View style={styles.container}>
+                <View style={styles.logocontainer}>
+                    <Image style={styles.picturelogo} source={picturelogo} />
+                    <Image style={styles.textlogo} source={textlogo} />
                 </View>
                 <View style={styles.maincontainer}>
-                    <View style={styles.maincard}>
-                        <TouchableOpacity
-                            onPress={() => alert('Hello, world!')} >
-                            <Text style={styles.maintext}>
-                                 출결 여부가 보여질 부분
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    {this.state.isViewing && (
-                        <View style={styles.fadingContainer}>
-                            <TouchableOpacity onPress={ ()=>{
-                                alert("Hawoon");
-                            }}>
-                                <Text style={styles.fadingText}>
-                                    MENU
-                                </Text>
+                    <View style={styles.mainleftcontainer}>
+                        <View style={styles.schedulecard}>
+                            <TouchableOpacity>
+                                <Image style={styles.imagesetting} source={schedule} />
                             </TouchableOpacity>
+                            <Text style={styles.textsettings}>
+                                시 간 표
+                            </Text>
                         </View>
-                    )}
+                        <View style={styles.qrcodecard}>
+                            <TouchableOpacity>
+                                <Image style={styles.imagesetting} source={qrcode} />
+                            </TouchableOpacity>
+                            <Text style={styles.textsettings}>
+                                학 생 증
+                            </Text>
+                        </View>
+                        <View style={styles.questioncard}>
+                            <TouchableOpacity>
+                                <Image style={styles.imagesetting} source={question} />
+                            </TouchableOpacity>
+                            <Text style={styles.textsettings}>
+                                설문조사
+                            </Text>
+                        </View>
+                    </View>
+                    <View style={styles.mainrightcontainer}>
+                        <View style={styles.lecturechoicecard}>
+                            <TouchableOpacity onPress={()=> this.props.navigation.navigate( 'Sub')}>
+                                <Image style={styles.imagesetting} source={lecturechoice} />
+                            </TouchableOpacity>
+                            <Text style={styles.textsettings}>
+                                출결조회
+                            </Text>
+                        </View>
+                        <View style={styles.noticecard}>
+                            <TouchableOpacity>
+                                <Image style={styles.imagesetting} source={notice} />
+                            </TouchableOpacity>
+                            <Text style={styles.textsettings}>
+                                공지사항
+                            </Text>
+                        </View>
+                        <View style={styles.qnacard}>
+                            <TouchableOpacity>
+                                <Image style={styles.imagesetting} source={qna} />
+                            </TouchableOpacity>
+                            <Text style={styles.textsettings}>
+                                출결문의
+                            </Text>
+                        </View>
+                    </View>
                 </View>
-            </LinearGradient>
+                <View style={styles.copyrightcontainer}>
+                    <Text>copyrightⓒ 출첵해조</Text>
+                </View>
+            </View>
         )
     }
-    
+}
+
+class Sub extends React.Component {
+    static navigationOptions = {
+        title: "출결조회"
+    }
+    render() {
+      return (
+          <View style={{flex:1}}>
+              <Text>
+                  Hello Test
+              </Text>
+          </View>
+      );
+    }
+  }
+
+const MainNavigator = createStackNavigator({
+    Home: Home,
+    Sub: Sub
+});
+
+export default createAppContainer(MainNavigator);
+
+class Main extends React.Component{
+    render(){
+        return <MainNavigator />;
+    }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex:1,
+        justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#FCBCBF"
+        backgroundColor: "#ff9999"
     },
-    title: {
-        marginTop: 30,
-        marginHorizontal: 36,
-        fontSize: 30,
-        fontWeight: "600",
-        fontStyle: "italic",
-        color: "#222",
-        elevation: 1
-    },
-    maincontainer: {
-        flex: 7,
-        width: width,
-        alignItems: "center"
-    },
-    maincard: {
-        flex: 7,
-        marginTop: 50,
-        backgroundColor: "white",
-        width: width - 40,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        borderColor: "#bbb",
-        borderWidth: 1,
-        ...Platform.select({
-            ios: {
-              shadowColor: "rgb(50, 50, 50)",
-              shadowOpacity: 0.5,
-              shadowRadius: 5,
-              shadowOffset: {
-                height: -1,
-                width: 0
-              }
-            },
-            android: {
-              elevation: 3
-            }
-          })
-    },
-    topcard: {
-        flex: 1,
-        width : width,
+    logocontainer:{
+        flex: 5,
+        alignItems: "center",
         flexDirection: "row",
+    },
+    maincontainer:{
+        flex: 15,
+        flexDirection: "row",
+        width: width-25,
+        borderRadius: 15,
+        borderWidth: 2,
+        borderColor: "#666666",
+        marginBottom: 5,
+        backgroundColor: "white"
+    },
+    mainleftcontainer:{
+        flex: 1,
+        borderRightColor: "#666666",
+        borderRightWidth: 1
+    },
+    mainrightcontainer:{
+        flex: 1,
+        borderLeftColor: "#666666",
+        borderLeftWidth: 1
+    },
+    copyrightcontainer:{
+        flex:1,
+        justifyContent: "center",
         alignItems: "center",
-        borderBottomWidth: 3,
-        borderBottomColor: "#222"
+        backgroundColor: "#993333",
+        borderTopWidth:1,
+        width: width
     },
-    fadingContainer: {
-        width: width /4,
-        height: height,
-        position: "absolute",
-        right: 310,
-        paddingVertical: 3,
-        paddingHorizontal: 8,
-        backgroundColor: "#FEE1B3",
-        borderRightColor: "black",
-        borderWidth: 2,
-        elevation: 3,
+    schedulecard:{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        borderBottomColor: "#999999",
+        borderBottomWidth: 1
     },
-    fadingText: {
+    qrcodecard:{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        borderBottomColor: "#999999",
+        borderBottomWidth: 1
+    },
+    questioncard:{
+        flex:1,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    lecturechoicecard:{
+        flex:1,
+        alignItems: "center",
+        justifyContent: "center",
+        borderBottomColor: "#999999",
+        borderBottomWidth: 1
+    },
+    noticecard: {
+        flex:1,
+        alignItems: "center",
+        justifyContent: "center",
+        borderBottomColor: "#999999",
+        borderBottomWidth: 1
+    },
+    qnacard: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    imagesetting:{
+        width: width/4,
+        height: height/8
+    },
+    textsettings:{
         fontSize: 25,
-        textAlign: "center",
-        borderWidth: 2,
-        padding: 4,
-        marginTop: 5,
-        borderBottomColor: "black",
+        marginTop: 5
     },
-    maintext: {
-        fontSize: 30,
-        marginLeft: 20,
+    picturelogo:{
+        width: width/4.7,
+        height: height/5,
+    },
+    textlogo:{
+        width: width/2.2,
+        height: height/10
     }
 })

@@ -12,9 +12,6 @@ import Load from './Load';
 import Main from './Main';
 import Login from './Login'
 
-const db = SQLite.openDatabase("www.db");
-
-
 export default class App extends React.Component {
   state = {
     isLoading : true,
@@ -29,8 +26,8 @@ export default class App extends React.Component {
   render() {
     const {isLoading} = this.state;
     return (
-      // isLoading ? <Load /> : <Main />
       isLoading ? <Load /> : <Login />
+      //isLoading ? <Load /> : <Main />
     );
   }
 

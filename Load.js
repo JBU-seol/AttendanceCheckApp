@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'
-import logo from './assets/jbu_logo.jpg'
+import logo from './assets/jbu_logo-removebg-preview.png'
 
 const { width, height } = Dimensions.get("window");
 

@@ -1,64 +1,90 @@
 import React from "react";
 import { StyleSheet, Text, View, StatusBar, TextInput, TouchableOpacity,
-Dimensions, Alert } from 'react-native';
-import * as Permission from 'expo-permissions';
+Dimensions, Alert, Image } from 'react-native';
 import * as Network from 'expo-network';
 
 const {width, height} = Dimensions.get("window");
+import logo from './assets/jbu_logo-removebg-preview.png';
+import Main from "./Main";
 
 export default class Login extends React.Component {
     state = {
         studentCode: "",
-        macAddress: ""
+        macAddress: "",
+        isLogin: false
     }
 
-    getMac = async() => {
+    _getMac = async() => {
         try{
             const mac = await Network.getMacAddressAsync("wlan0");
             this.setState({
                 macAddress: mac
             })
         } catch(error){
-            Alert.alert("Can't find your interface","Error")
+            Alert.alert("Error","Can't find your interface")
         }
-
     };
 
+    
+
+      _gotoMain = () => {
+          const { studentCode, macAddress } = this.state;
+          if( studentCode !== "" && macAddress !== ""){
+              this.setState({
+                  isLogin: true
+              })
+          }
+          else{
+              Alert.alert("학번을 입력해주세요")
+          }
+      }
+
+
     componentDidMount() {
-        this.getMac();
+        this._getMac();
     };
 
     render() {
-        return (
-            <View style={styles.container}>
-            <StatusBar barStyle="light-content" />
-                <View style={styles.subcontainer12}>
-                </View>
-                <View style={styles.subcontainer12}>
-                    <TextInput style={styles.inputcard} 
-                    maxLength={10}
-                    keyboardType={"number-pad"}
-                    placeholder={"Your Student Code  ex ) 91512345"}
-                    value={this.state.studentCode}
-                    onChangeText={this._editInput}
-                    returnKeyType={"done"}
-                    />
-                    <Text style={{fontSize:20}}> </Text>
-                    <TextInput style={styles.inputcard}
-                    placeholder={this.state.macAddress}
-                    placeholderTextColor={"white"}
-                    />
-                </View>
-                <View style={styles.subcontainer3}>
-                    <TouchableOpacity style={styles.loginbox}
-                    onPress={()=>{Alert.alert("Login !")}}>
-                        <Text style={styles.logintext}>
-                            Login
+        const isLogin = this.state.isLogin; 
+        if( isLogin === false){
+            return (
+                <View style={styles.container}>
+                <StatusBar barStyle="light-content" />
+                    <View style={styles.subcontainer1}>
+                        <Image style={styles.logo} source={logo} />
+                    </View>
+                    <View style={styles.subcontainer2}>
+                        <Text style={{color: "#bbb", fontSize:17, marginBottom:5}}>
+                            LOGIN 
                         </Text>
-                    </TouchableOpacity>
+                        <TextInput style={styles.inputcard} 
+                        maxLength={10}
+                        keyboardType={"number-pad"}
+                        placeholder={"Your Student Code  ex ) 91512345"}
+                        placeholderTextColor={"#eff"}
+                        value={this.state.studentCode}
+                        onChangeText={this._editInput}
+                        returnKeyType={"done"}
+                        />
+                        <Text style={{fontSize:20}}> </Text>
+                        <TextInput style={styles.inputcard}
+                        placeholder={this.state.macAddress}
+                        value={this.state.macAddress}
+                        />
+                        <Text style={{fontSize:20}}> </Text>
+                        <TouchableOpacity style={styles.loginbox}
+                        onPress={this._gotoMain} >
+                            <Text style={styles.logintext}>
+                                L O G I N
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
-        )
+            )
+        } else {
+            return <Main />
+        }
+        
     }
 
     _editInput = text => {
@@ -76,32 +102,36 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "black"
     },
-    subcontainer12: {
+    subcontainer1: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
         
     },
-    subcontainer3: {
+    subcontainer2: {
         flex: 1,
-        alignItems: "center",
-        marginTop: 50
+        alignItems: "flex-start",
         
+    },
+    logo: {
+        marginTop: 50
     },
     inputcard: {
         backgroundColor: "gray",
-        color: "white",
-        fontSize: 20,
+        color: "#111111",
+        fontSize: 18,
         fontStyle: "italic",
         width: width/1.3,
         height: height/20,
         borderRadius: 3,
     },
     loginbox: {
-        backgroundColor: "gray",
+        backgroundColor: "#3333cc",
         borderRadius: 10,
-        paddingHorizontal: 30,
-        paddingVertical: 10
+        alignItems: "center",
+        justifyContent: "center",
+        width: width/1.3,
+        height: height/20,
     },
     logintext: {
         color: "white",

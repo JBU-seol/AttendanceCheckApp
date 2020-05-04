@@ -1,47 +1,22 @@
 import React from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity
-} from "react-native";
-import * as SQLite from 'expo-sqlite';
-import Load from './Load';
-import Main from './Main';
-import Login from './Login'
+//import * as SQLite from 'expo-sqlite';
+import Load from './src/components/Load';
+import Login from './src/components/Login'
 
 export default class App extends React.Component {
   state = {
-    isLoading : true,
-    text: null
+    isLoading : true
   }
 
   componentDidMount() {
     setTimeout( ()=>{this.setState({isLoading: false})}, 1000)
   }
 
-
   render() {
     const {isLoading} = this.state;
     return (
       isLoading ? <Load /> : <Login />
-      //isLoading ? <Load /> : <Main />
     );
   }
-
-  
   
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  
-});

@@ -1,22 +1,20 @@
 import React from 'react';
 import {StyleSheet, View, Text, Dimensions, Image, TouchableOpacity} from 'react-native';
 
-import picturelogo from './assets/jbu_logo-removebg-preview.png';
-import textlogo from './assets/jbu_kr-removebg-preview.png';
-import schedule from './assets/schedule.png';
-import lecturechoice from './assets/lecturechoice.png';
-import qrcode from './assets/qrcode.png';
-import notice from './assets/notice.png';
-import question from './assets/question2.png';
-import qna from './assets/qna.png';
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator} from 'react-navigation-stack';
+import picturelogo from '../../assets/jbu_logo-removebg-preview.png';
+import textlogo from '../../assets/jbu_kr-removebg-preview.png';
+import schedule from '../../assets/schedule.png';
+import lecturechoice from '../../assets/lecturechoice.png';
+import qrcode from '../../assets/qrcode.png';
+import notice from '../../assets/notice.png';
+import question from '../../assets/question2.png';
+import qna from '../../assets/qna.png';
 
 const {width, height} = Dimensions.get("window");
 
-class Home extends React.Component{
+export default class Home extends React.Component{
     static navigationOptions={
-        header: null
+        headerShown : false
     };
     render() {
         return (
@@ -87,33 +85,6 @@ class Home extends React.Component{
     }
 }
 
-class Sub extends React.Component {
-    static navigationOptions = {
-        title: "출결조회"
-    }
-    render() {
-      return (
-          <View style={{flex:1}}>
-              <Text>
-                  Hello Test
-              </Text>
-          </View>
-      );
-    }
-  }
-
-const MainNavigator = createStackNavigator({
-    Home: Home,
-    Sub: Sub
-});
-
-export default createAppContainer(MainNavigator);
-
-class Main extends React.Component{
-    render(){
-        return <MainNavigator />;
-    }
-}
 
 const styles = StyleSheet.create({
     container: {
@@ -202,8 +173,8 @@ const styles = StyleSheet.create({
         marginTop: 5
     },
     picturelogo:{
-        width: width/4.7,
-        height: height/5,
+        width: width/4,
+        height: height/4,
     },
     textlogo:{
         width: width/2.2,

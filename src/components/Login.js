@@ -4,7 +4,7 @@ Dimensions, Alert, Image } from 'react-native';
 import * as Network from 'expo-network';
 
 const {width, height} = Dimensions.get("window");
-import logo from './assets/jbu_logo-removebg-preview.png';
+import logo from '../../assets/jbu_logo-removebg-preview.png';
 import Main from "./Main";
 
 export default class Login extends React.Component {

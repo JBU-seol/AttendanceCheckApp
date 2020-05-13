@@ -25,6 +25,7 @@ export default class Sub extends React.Component {
     }
 
     render() {
+    console.log(this.props.navigation.state.params)
       return (
           <ScrollView>
               <View style={styles.container}>

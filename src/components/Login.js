@@ -4,8 +4,10 @@ Dimensions, Alert, Image } from 'react-native';
 import * as Network from 'expo-network';
 
 const {width, height} = Dimensions.get("window");
+const API = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/login/";
 import logo from '../../assets/jbu_logo-removebg-preview.png';
-import Main from "./Main";
+import AppContainer from "./Main";
+import MainNavigator from "./Main"
 
 export default class Login extends React.Component {
     state = {
@@ -25,14 +27,33 @@ export default class Login extends React.Component {
         }
     };
 
-    
+    _getAuthAsync = async() => {
+        const {studentCode, macAddress} = this.state; 
+        try {
+            let response = await fetch(API, {
+                method: 'POST',
+                body: JSON.stringify({
+                    grade_number: studentCode,
+                    mac_address: macAddress
+                }),
+            })
+            if (response.status === 200){  
+                this.setState({
+                    isLogin: true
+                })
+            }
+            else {
+                Alert.alert("등록되지 않은 사용자입니다.");
+            }
+        } catch (error){
+            Alert.alert(error)
+        }
+    }
 
       _gotoMain = () => {
           const { studentCode, macAddress } = this.state;
           if( studentCode !== "" && macAddress !== ""){
-              this.setState({
-                  isLogin: true
-              })
+              this._getAuthAsync();
           }
           else{
               Alert.alert("학번을 입력해주세요")
@@ -69,6 +90,7 @@ export default class Login extends React.Component {
                         <Text style={{fontSize:20}}> </Text>
                         <TextInput style={styles.inputcard}
                         placeholder={this.state.macAddress}
+                        onChangeText={this._editMac}
                         value={this.state.macAddress}
                         />
                         <Text style={{fontSize:20}}> </Text>
@@ -82,7 +104,7 @@ export default class Login extends React.Component {
                 </View>
             )
         } else {
-            return <Main />
+            return <MainNavigator screenProps={{code:this.state.studentCode}}/>
         }
         
     }
@@ -90,6 +112,11 @@ export default class Login extends React.Component {
     _editInput = text => {
         this.setState({
             studentCode: text
+        })
+    }
+    _editMac = text => {
+        this.setState({
+            macAddress: text
         })
     }
 

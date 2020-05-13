@@ -12,10 +12,12 @@ const MainNavigator = createStackNavigator({
     SubDetail: SubDetail
 });
 
-class Main extends React.Component{
-    render(){
-        return <MainNavigator />;
-    }
-}
+// class Main extends React.Component{
+//     render(){
+//         return <MainNavigator />;
+//     }
+// }
 
-export default createAppContainer(MainNavigator);
+const AppContainer = createAppContainer(MainNavigator);
+
+export default AppContainer;

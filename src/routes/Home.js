@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text, Dimensions, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, Dimensions, Image, TouchableOpacity, Alert} from 'react-native';
 
 import picturelogo from '../../assets/jbu_logo-removebg-preview.png';
 import textlogo from '../../assets/jbu_kr-removebg-preview.png';
@@ -11,12 +11,84 @@ import question from '../../assets/question2.png';
 import qna from '../../assets/qna.png';
 
 const {width, height} = Dimensions.get("window");
+const getIdAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/course_id";
+const getNameAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/course_name";
+const getTimeAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/course_time";
 
 export default class Home extends React.Component{
     static navigationOptions={
         headerShown : false
     };
+
+    state = {
+        LectureName : [],
+        LectureTime : []
+    }
+
+    _getLectureTime = async(id) => {
+        try {
+            let response = await fetch(getTimeAPI, {
+                method: 'POST',
+                body: JSON.stringify({
+                    id: id,
+                }),
+            })
+            let responseJson = await response.json();
+            console.log(responseJson);
+            this.setState({ 
+                LectureTime : this.state.LectureTime.concat(responseJson)
+            })
+        } catch(error){
+            Alert.alert(error)
+        }
+    }
+
+    _getLectureName = async(lecture_id) => {
+        try {
+            let response = await fetch(getNameAPI, {
+                method: 'POST',
+                body: JSON.stringify({
+                    lecture_id: lecture_id,
+                }),
+            })
+            let responseJson = await response.json();
+            console.log(responseJson);
+            this.setState( {
+                LectureName : this.state.LectureName.concat(responseJson)
+                //LectureName : responseJson
+            })
+            this._getLectureTime(responseJson.id);
+        } catch(error){
+            Alert.alert(error)
+        }
+    }
+
+    _getLectureID = async() => {
+        try{
+            let response = await fetch(getIdAPI, {
+                method: 'POST',
+                body: JSON.stringify({
+                    grade_number: this.props.screenProps.code,
+                }),
+            })
+            let responseJson = await response.json();
+            //console.log(responseJson.lecture_id);
+            for( var i=0 ; i < responseJson.lecture_id.length ; i++ ){
+                this._getLectureName(responseJson.lecture_id[i]);
+            }
+            
+        } catch(error){
+            Alert.alert("error")
+        }
+    }
+
+    componentDidMount() {
+        this._getLectureID();
+    }
+
     render() {
+        
+        console.log(this.props.screenProps.code)
         return (
             <View style={styles.container}>
                 <View style={styles.logocontainer}>
@@ -52,7 +124,10 @@ export default class Home extends React.Component{
                     </View>
                     <View style={styles.mainrightcontainer}>
                         <View style={styles.lecturechoicecard}>
-                            <TouchableOpacity onPress={()=> this.props.navigation.navigate( 'Sub')}>
+                            <TouchableOpacity onPress={()=> this.props.navigation.navigate( 'Sub', {
+                                LectureName : this.state.LectureName,
+                                LectureTime : this.state.LectureTime
+                            } )}>
                                 <Image style={styles.imagesetting} source={lecturechoice} />
                             </TouchableOpacity>
                             <Text style={styles.textsettings}>

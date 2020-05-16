@@ -60,94 +60,150 @@ export default class Sub extends React.Component {
     
     render() {
         const { LectureName, LectureTime } = this.props.navigation.state.params;
-        let fri_list;
-        console.log(this.props.navigation.state.params)
+        let lecture_list, lecture_stime, lecture_etime;
+        //console.log(this.props.navigation.state.params)
       return (
           <ScrollView>
               <View style={styles.container}>
                   <View style={styles.daycard}>
                       <Text style={styles.daytext} onPress={this.toggleMon}>
-                          월요일(
+                          월요일
                         </Text>
-                      {/* {this.state.isMon && (
+                        {this.state.isMon && (
                           <View style={styles.fadingContainer}>
                               {
-                                  Monlec.map( (values, i) => {
-                                      return (
-                                          <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('SubDetail')}>
-                                              <Text style={styles.fadingText}>
-                                                  {values}
-                                              </Text>
-                                          </TouchableOpacity>
-                                      )
+                                  LectureTime.map( (value,i,j) => {
+                                      if( value.which_day === "월요일"){
+                                        LectureName.map( obj => {
+                                            if( obj.id === value.id ){
+                                                lecture_list = obj.lecture_name;
+                                                lecture_stime = value.start_time;
+                                                lecture_etime = value.finish_time;
+                                            }
+                                        })
+                                        return (
+                                            <View>
+                                                <Text key={i} style={styles.fadingText}
+                                                    onPress={() => this.props.navigation.navigate('SubDetail',
+                                                    )}>
+                                                    {lecture_list}
+                                                </Text>
+                                                <Text key={j} style={{marginLeft:10}}>
+                                                    {lecture_stime}~{lecture_etime}
+                                                </Text>
+                                            </View>
+                                        )
+                                      }
                                   })
                               }
                           </View>
                       )
-                      } */}
+                      }
                   </View>
                   <View style={styles.daycard}>
                       <Text style={styles.daytext} onPress={this.toggleTue}>
                           화요일
                   </Text>
-                  {/* {this.state.isTue && (
+                  {this.state.isTue && (
                           <View style={styles.fadingContainer}>
                               {
-                                  Tuelec.map( (values,i) => {
-                                      return (
-                                          <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('SubDetail')}>
-                                              <Text style={styles.fadingText}>
-                                                  {values}
-                                              </Text>
-                                          </TouchableOpacity>
-                                      )
+                                  LectureTime.map( (value,i,j) => {
+                                      if( value.which_day === "화요일"){
+                                        LectureName.map( obj => {
+                                            if( obj.id === value.id ){
+                                                lecture_list = obj.lecture_name;
+                                                lecture_stime = value.start_time;
+                                                lecture_etime = value.finish_time;
+                                            }
+                                        })
+                                        return (
+                                            <View>
+                                                <Text key={i} style={styles.fadingText}
+                                                    onPress={() => this.props.navigation.navigate('SubDetail',
+                                                    )}>
+                                                    {lecture_list}
+                                                </Text>
+                                                <Text key={j} style={{marginLeft:10}}>
+                                                    {lecture_stime}~{lecture_etime}
+                                                </Text>
+                                            </View>
+                                        )
+                                      }
                                   })
                               }
                           </View>
                       )
-                      } */}
+                      }
                   </View>
                   <View style={styles.daycard}>
                       <Text style={styles.daytext} onPress={this.toggleWen}>
                           수요일
                   </Text>
-                  {/* {this.state.isWen && (
+                  {this.state.isWen && (
                           <View style={styles.fadingContainer}>
                               {
-                                  Wenlec.map((values,i) => {
-                                      return (
-                                          <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('SubDetail')}>
-                                              <Text style={styles.fadingText}>
-                                                  {values}
-                                              </Text>
-                                          </TouchableOpacity>
-                                      )
+                                  LectureTime.map( (value,i,j) => {
+                                      if( value.which_day === "수요일"){
+                                        LectureName.map( obj => {
+                                            if( obj.id === value.id ){
+                                                lecture_list = obj.lecture_name;
+                                                lecture_stime = value.start_time;
+                                                lecture_etime = value.finish_time;
+                                            }
+                                        })
+                                        return (
+                                            <View>
+                                                <Text key={i} style={styles.fadingText}
+                                                    onPress={() => this.props.navigation.navigate('SubDetail',
+                                                    )}>
+                                                    {lecture_list}
+                                                </Text>
+                                                <Text key={j} style={{marginLeft:10}}>
+                                                    {lecture_stime}~{lecture_etime}
+                                                </Text>
+                                            </View>
+                                        )
+                                      }
                                   })
                               }
                           </View>
                       )
-                      } */}
+                      }
                   </View>
                   <View style={styles.daycard}>
                       <Text style={styles.daytext} onPress={this.toggleThu}>
                           목요일
                   </Text>
-                  {/* {this.state.isThu && (
+                  {this.state.isThu && (
                           <View style={styles.fadingContainer}>
                               {
-                                  Thulec.map((values,i) => {
-                                      return (
-                                          <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('SubDetail')}>
-                                              <Text style={styles.fadingText}>
-                                                  {values}
-                                              </Text>
-                                          </TouchableOpacity>
-                                      )
+                                  LectureTime.map( (value,i,j) => {
+                                      if( value.which_day === "목요일"){
+                                        LectureName.map( obj => {
+                                            if( obj.id === value.id ){
+                                                lecture_list = obj.lecture_name;
+                                                lecture_stime = value.start_time;
+                                                lecture_etime = value.finish_time;
+                                            }
+                                        })
+                                        return (
+                                            <View>
+                                                <Text key={i} style={styles.fadingText}
+                                                    onPress={() => this.props.navigation.navigate('SubDetail',
+                                                    )}>
+                                                    {lecture_list}
+                                                </Text>
+                                                <Text key={j} style={{marginLeft:10}}>
+                                                    {lecture_stime}~{lecture_etime}
+                                                </Text>
+                                            </View>
+                                        )
+                                      }
                                   })
                               }
                           </View>
                       )
-                      } */}
+                      }
                   </View>
                   <View style={styles.daycard}>
                       <Text style={styles.daytext} onPress={this.toggleFri}>
@@ -156,19 +212,26 @@ export default class Sub extends React.Component {
                   {this.state.isFri && (
                           <View style={styles.fadingContainer}>
                               {
-                                  LectureTime.map( (value,i) => {
+                                  LectureTime.map( (value,i,j) => {
                                       if( value.which_day === "금요일"){
-                                        // fri_id_list.push(value.id)
-                                        // console.log(fri_id_list)
                                         LectureName.map( obj => {
                                             if( obj.id === value.id ){
-                                                fri_list = obj.lecture_name
+                                                lecture_list = obj.lecture_name;
+                                                lecture_stime = value.start_time;
+                                                lecture_etime = value.finish_time;
                                             }
                                         })
                                         return (
-                                            <Text>
-                                                {fri_list}
-                                            </Text>
+                                            <View>
+                                                <Text key={i} style={styles.fadingText}
+                                                    onPress={() => this.props.navigation.navigate('SubDetail',
+                                                    )}>
+                                                    {lecture_list}
+                                                </Text>
+                                                <Text key={j} style={{marginLeft:10}}>
+                                                    {lecture_stime}~{lecture_etime}
+                                                </Text>
+                                            </View>
                                         )
                                       }
                                   })

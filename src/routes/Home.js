@@ -27,8 +27,7 @@ export default class Home extends React.Component{
 
     state = {
         LectureName : [],
-        LectureTime : [],
-        Frilec : []
+        LectureTime : []
     }
 
     _getLectureTime = async(id) => {
@@ -87,70 +86,12 @@ export default class Home extends React.Component{
         }
     }
 
-    _settingLectureDay = ( lecture_id ) => {
-        //const lecture_obj = this.props.navigation.state.params;
-        const lecture_time = this.state.LectureTime;
-
-        for( var j=0 ; j < lecture_time.length ; j++ ){
-            if( lecture_id.id === lecture_time[j].id ){
-                switch( lecture_time[j].which_day ){
-                    case '월요일':
-                        Monlec.push(lecture_id.lecture_name)
-                        // this.setState({
-                        //     Monlec : this.state.Monlec.concat(lecture_id.lecture_name)
-                        // })
-                        //console.log("월요일");
-                        break;
-                    case '화요일':
-                        Tuelec.push(lecture_id.lecture_name)
-                        // this.setState({
-                        //     Tuelec : this.state.Tuelec.concat(lecture_id.lecture_name)
-                        // })
-                        //console.log("화요일");
-                        break;
-                    case '수요일':
-                        Wenlec.push(lecture_id.lecture_name)
-                        // this.setState({
-                        //     Wenlec : this.state.Wenlec.concat(lecture_id.lecture_name)
-                        // })
-                        //console.log("수요일");
-                        break;
-                    case '목요일':
-                        Thulec.push(lecture_id.lecture_name)
-                        // this.setState({
-                        //     Thulec : this.state.Thulec.concat(lecture_id.lecture_name)
-                        // })
-                        //console.log("목요일");
-                        break;
-                    case '금요일':
-                        //Frilec.push(lecture_id.lecture_name)
-                        this.setState( {
-                            Frilec : [ ...this.state.Frilec, lecture_id.lecture_name ]
-                        })
-                        // console.log(lecture_id.lecture_name);
-                        break;
-                }
-            }
-        }
-    }
-
-    _settingLecture = () => {
-        // const lecture_obj = this.props.navigation.state.params;
-        // console.log(lecture_obj);
-        const lecture_id = this.state.LectureName;
-        console.log(lecture_id)
-        for( var i=0 ; i < lecture_id.length ; i++ ){
-            this._settingLectureDay( lecture_id[i] )
-        }
-    }
-
     componentDidMount() {
         this._getLectureID();
-        //this._settingLecture();
     }
 
     render() {
-        //console.log(this.props.screenProps.code)
+        //this.props.screenProps.code == 학번 정보
         return (
             <View style={styles.container}>
                 <View style={styles.logocontainer}>

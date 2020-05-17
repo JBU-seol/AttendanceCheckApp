@@ -13,14 +13,16 @@ export default class SubDetail extends React.Component{
     }
 
     render() {
+        //console.log(this.props.navigation.state.params);
+        const lectureObj = this.props.navigation.state.params;
         return (
             <View style={styles.container}>
                 <View style={styles.infocard}>
                     <Text style={styles.infotext}>
-                        정보보호프로젝트설계실습1
+                        {lectureObj.lecture_name}
                     </Text>
                     <Text style={styles.infotext}>
-                        이슬기 출석상세
+                        {this.props.screenProps.name} 출석상세
                     </Text>
                     <Text style={styles.infotext}>
                         출석: 지각: 조퇴: 결석:
@@ -35,12 +37,13 @@ export default class SubDetail extends React.Component{
                                     1
                                 </Text>
                                 <Text style={{fontSize: 17, padding: 30}}>
-                                    1 주차 (09월 7일)
+                                    1 주차 ({lectureObj.LectureTime.day})
                                 </Text>
                             </View>
                             <View style={styles.firstweekbottom}>
-                                <Text style={styles.weekbottomtext}>09월07일</Text>
-                                <Text style={styles.weekbottomtext}>13:10 ~ 14:00</Text>
+                                <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.day}</Text>
+                                <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
+                                {lectureObj.LectureTime.finish_time}</Text>
                                 <Text style={styles.weekbottomtextborder}>출석or결석</Text>
                             </View>
                         </View>
@@ -53,12 +56,12 @@ export default class SubDetail extends React.Component{
                                     2
                                 </Text>
                                 <Text style={{ fontSize: 17, padding: 30 }}>
-                                    2 주차 (09월 13일)
+                                    2 주차 ( )
                                 </Text>
                             </View>
                             <View style={styles.firstweekbottom}>
-                                <Text style={styles.weekbottomtext}>09월13일</Text>
-                                <Text style={styles.weekbottomtext}>13:10 ~ 14:00</Text>
+                                <Text style={styles.weekbottomtext}>-월-일</Text>
+                                <Text style={styles.weekbottomtext}>--:-- ~ --:--</Text>
                                 <Text style={styles.weekbottomtextborder}>출석or결석</Text>
                             </View>
                         </View>

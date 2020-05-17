@@ -6,12 +6,12 @@ import * as Network from 'expo-network';
 const {width, height} = Dimensions.get("window");
 const API = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/login/";
 import logo from '../../assets/jbu_logo-removebg-preview.png';
-import AppContainer from "./Main";
 import MainNavigator from "./Main"
 
 export default class Login extends React.Component {
     state = {
         studentCode: "",
+        studentName: "",
         macAddress: "",
         isLogin: false
     }
@@ -37,8 +37,10 @@ export default class Login extends React.Component {
                     mac_address: macAddress
                 }),
             })
+            let responseJson = await response.json()
             if (response.status === 200){  
                 this.setState({
+                    studentName: responseJson.name,
                     isLogin: true
                 })
             }
@@ -104,7 +106,7 @@ export default class Login extends React.Component {
                 </View>
             )
         } else {
-            return <MainNavigator screenProps={{code:this.state.studentCode}}/>
+            return <MainNavigator screenProps={{code:this.state.studentCode, name:this.state.studentName}}/>
         }
         
     }

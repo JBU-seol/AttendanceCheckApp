@@ -59,8 +59,9 @@ export default class Sub extends React.Component {
 
     
     render() {
+        //this.props.navigation.state.params == 강의명&시간 정보
         const { LectureName, LectureTime } = this.props.navigation.state.params;
-        let lecture_list, lecture_stime, lecture_etime;
+        let lecture_stime, lecture_etime;
         //console.log(this.props.navigation.state.params)
       return (
           <ScrollView>
@@ -72,7 +73,8 @@ export default class Sub extends React.Component {
                         {this.state.isMon && (
                           <View style={styles.fadingContainer}>
                               {
-                                  LectureTime.map( (value,i,j) => {
+                                  LectureTime.map( (value,i) => {
+                                      let lecture_list;
                                       if( value.which_day === "월요일"){
                                         LectureName.map( obj => {
                                             if( obj.id === value.id ){
@@ -82,13 +84,15 @@ export default class Sub extends React.Component {
                                             }
                                         })
                                         return (
-                                            <View>
-                                                <Text key={i} style={styles.fadingText}
-                                                    onPress={() => this.props.navigation.navigate('SubDetail',
-                                                    )}>
+                                            <View key={i}>
+                                                <Text style={styles.fadingText}
+                                                    onPress={() => this.props.navigation.navigate('SubDetail',{
+                                                        lecture_name : lecture_list,
+                                                        LectureTime : value
+                                                    })}>
                                                     {lecture_list}
                                                 </Text>
-                                                <Text key={j} style={{marginLeft:10}}>
+                                                <Text style={{marginLeft:10}}>
                                                     {lecture_stime}~{lecture_etime}
                                                 </Text>
                                             </View>
@@ -107,7 +111,8 @@ export default class Sub extends React.Component {
                   {this.state.isTue && (
                           <View style={styles.fadingContainer}>
                               {
-                                  LectureTime.map( (value,i,j) => {
+                                  LectureTime.map( (value,i) => {
+                                    let lecture_list;
                                       if( value.which_day === "화요일"){
                                         LectureName.map( obj => {
                                             if( obj.id === value.id ){
@@ -117,13 +122,16 @@ export default class Sub extends React.Component {
                                             }
                                         })
                                         return (
-                                            <View>
-                                                <Text key={i} style={styles.fadingText}
-                                                    onPress={() => this.props.navigation.navigate('SubDetail',
+                                            <View key={i}>
+                                                <Text style={styles.fadingText}
+                                                    onPress={() => this.props.navigation.navigate('SubDetail',{
+                                                        lecture_name : lecture_list,
+                                                        LectureTime : value
+                                                    }
                                                     )}>
                                                     {lecture_list}
                                                 </Text>
-                                                <Text key={j} style={{marginLeft:10}}>
+                                                <Text style={{marginLeft:10}}>
                                                     {lecture_stime}~{lecture_etime}
                                                 </Text>
                                             </View>
@@ -142,7 +150,8 @@ export default class Sub extends React.Component {
                   {this.state.isWen && (
                           <View style={styles.fadingContainer}>
                               {
-                                  LectureTime.map( (value,i,j) => {
+                                  LectureTime.map( (value,i) => {
+                                    let lecture_list;
                                       if( value.which_day === "수요일"){
                                         LectureName.map( obj => {
                                             if( obj.id === value.id ){
@@ -152,13 +161,16 @@ export default class Sub extends React.Component {
                                             }
                                         })
                                         return (
-                                            <View>
-                                                <Text key={i} style={styles.fadingText}
-                                                    onPress={() => this.props.navigation.navigate('SubDetail',
+                                            <View key={i}>
+                                                <Text style={styles.fadingText}
+                                                    onPress={() => this.props.navigation.navigate('SubDetail',{
+                                                        lecture_name : lecture_list,
+                                                        LectureTime : value
+                                                    }
                                                     )}>
                                                     {lecture_list}
                                                 </Text>
-                                                <Text key={j} style={{marginLeft:10}}>
+                                                <Text style={{marginLeft:10}}>
                                                     {lecture_stime}~{lecture_etime}
                                                 </Text>
                                             </View>
@@ -177,7 +189,8 @@ export default class Sub extends React.Component {
                   {this.state.isThu && (
                           <View style={styles.fadingContainer}>
                               {
-                                  LectureTime.map( (value,i,j) => {
+                                  LectureTime.map( (value,i) => {
+                                    let lecture_list;
                                       if( value.which_day === "목요일"){
                                         LectureName.map( obj => {
                                             if( obj.id === value.id ){
@@ -187,13 +200,16 @@ export default class Sub extends React.Component {
                                             }
                                         })
                                         return (
-                                            <View>
-                                                <Text key={i} style={styles.fadingText}
-                                                    onPress={() => this.props.navigation.navigate('SubDetail',
+                                            <View key={i}>
+                                                <Text style={styles.fadingText}
+                                                    onPress={() => this.props.navigation.navigate('SubDetail',{
+                                                        lecture_name : lecture_list,
+                                                        LectureTime : value
+                                                    }
                                                     )}>
                                                     {lecture_list}
                                                 </Text>
-                                                <Text key={j} style={{marginLeft:10}}>
+                                                <Text style={{marginLeft:10}}>
                                                     {lecture_stime}~{lecture_etime}
                                                 </Text>
                                             </View>
@@ -212,7 +228,8 @@ export default class Sub extends React.Component {
                   {this.state.isFri && (
                           <View style={styles.fadingContainer}>
                               {
-                                  LectureTime.map( (value,i,j) => {
+                                  LectureTime.map( (value,i) => {
+                                    let lecture_list;
                                       if( value.which_day === "금요일"){
                                         LectureName.map( obj => {
                                             if( obj.id === value.id ){
@@ -222,13 +239,16 @@ export default class Sub extends React.Component {
                                             }
                                         })
                                         return (
-                                            <View>
-                                                <Text key={i} style={styles.fadingText}
-                                                    onPress={() => this.props.navigation.navigate('SubDetail',
+                                            <View key={i}>
+                                                <Text style={styles.fadingText}
+                                                    onPress={() => this.props.navigation.navigate('SubDetail',{
+                                                        lecture_name : lecture_list,
+                                                        LectureTime : value
+                                                    }
                                                     )}>
                                                     {lecture_list}
                                                 </Text>
-                                                <Text key={j} style={{marginLeft:10}}>
+                                                <Text style={{marginLeft:10}}>
                                                     {lecture_stime}~{lecture_etime}
                                                 </Text>
                                             </View>

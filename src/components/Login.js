@@ -44,7 +44,7 @@ export default class Login extends React.Component {
                     isLogin: true
                 })
             }
-            else {
+            else if( response.status == 400){
                 Alert.alert("등록되지 않은 사용자입니다.");
             }
         } catch (error){

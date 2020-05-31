@@ -2,11 +2,15 @@ import React from "react";
 import { StyleSheet, Text, View, StatusBar, TextInput, TouchableOpacity,
 Dimensions, Alert, Image } from 'react-native';
 import * as Network from 'expo-network';
-
+import * as SQLite from 'expo-sqlite';
+//import {SQLite} from 'expo';
 const {width, height} = Dimensions.get("window");
 const API = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/login/";
 import logo from '../../assets/jbu_logo-removebg-preview.png';
 import MainNavigator from "./Main"
+
+const db = SQLite.openDatabase("www.db");
+let dbLength, dbarr, dbNumber, dbMac;
 
 export default class Login extends React.Component {
     state = {
@@ -16,12 +20,30 @@ export default class Login extends React.Component {
         isLogin: false
     }
 
-    _getMac = async() => {
+    _getData = async() => {
         try{
             const mac = await Network.getMacAddressAsync("wlan0");
             this.setState({
                 macAddress: mac
             })
+            db.transaction( tx => {
+                tx.executeSql(
+                    "select * from info",
+                    [],
+                    (_, { rows}) => { 
+                        dbLength = rows["length"];
+                        if( dbLength === 1) {
+                            dbarr = rows["_array"];
+                            dbNumber = dbarr[0].grade_number;
+                            dbMac = dbarr[0].mac_address;
+                            this.setState({
+                                studentCode: dbNumber,
+                                macAddress : dbMac
+                            })
+                        }
+                    }
+                );
+            });
         } catch(error){
             Alert.alert("Error","Can't find your interface")
         }
@@ -39,16 +61,33 @@ export default class Login extends React.Component {
             })
             let responseJson = await response.json()
             if (response.status === 200){  
+                db.transaction( tx => {
+                    tx.executeSql(
+                        "insert into info values ( 1, ?, ? )",
+                        [studentCode, macAddress],
+                        () => {
+                            console.log("insert success");
+                        },
+                        () => {
+                            console.log("insert fail");
+                        }
+                    );
+                    // tx.executeSql(
+                    //     "select * from info",
+                    //     [],
+                    //     (_, { rows}) => console.log(JSON.stringify(rows))
+                    // );
+                });
                 this.setState({
                     studentName: responseJson.name,
                     isLogin: true
                 })
             }
-            else if( response.status == 400){
-                Alert.alert("등록되지 않은 사용자입니다.");
+            else if (response.status === 400) {
+                Alert.alert('Error:','등록되지않은 사용자입니다.');
             }
         } catch (error){
-            Alert.alert(error)
+            Alert.alert('Error:','등록되지않은 사용자입니다.');
         }
     }
 
@@ -62,10 +101,22 @@ export default class Login extends React.Component {
           }
       }
 
-
     componentDidMount() {
-        this._getMac();
-    };
+        this._getData();
+        db.transaction( tx => {
+            tx.executeSql(
+                "create table if not exists info (id integer primary key not null, grade_number int, mac_address text);",
+                null,
+                () => {
+                    console.log('create success')
+                },
+                () => {
+                    console.log('create fail')
+                }
+            );
+        });    
+}   
+
 
     render() {
         const isLogin = this.state.isLogin; 

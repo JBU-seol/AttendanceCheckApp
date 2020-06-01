@@ -7,7 +7,8 @@ import * as SQLite from 'expo-sqlite';
 const {width, height} = Dimensions.get("window");
 const API = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/login/";
 import logo from '../../assets/jbu_logo-removebg-preview.png';
-import MainNavigator from "./Main"
+import MainNavigator from "./Main";
+import ProMainNavigator from "./ProMain";
 
 const db = SQLite.openDatabase("www.db");
 let dbLength, dbarr, dbNumber, dbMac;
@@ -119,7 +120,7 @@ export default class Login extends React.Component {
 
 
     render() {
-        const isLogin = this.state.isLogin; 
+        const { isLogin, studentName } = this.state; 
         if( isLogin === false){
             return (
                 <View style={styles.container}>
@@ -157,7 +158,12 @@ export default class Login extends React.Component {
                 </View>
             )
         } else {
-            return <MainNavigator screenProps={{code:this.state.studentCode, name:this.state.studentName}}/>
+            if ( studentName.substr(0,3) === 'Pro'){
+                return <ProMainNavigator />;
+            }
+            else{
+                return <MainNavigator screenProps={{code:this.state.studentCode, name:this.state.studentName}}/>
+            }
         }
         
     }

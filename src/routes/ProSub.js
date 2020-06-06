@@ -21,33 +21,43 @@ export default class ProSub extends React.Component {
             <View style={styles.container}>
                 <View style={styles.main_container}>
                     <ScrollView>
-                        <TouchableWithoutFeedback onPress={()=> this.props.navigation.navigate( 'ProSubDetail',{
-                            name : "캡스톤"
-                        })}>
-                            <View style={styles.block_container}>
-                                <View style={styles.block_left_container}>
-                                    <Text style={styles.bold_text}>
-                                        캡스톤
-                                </Text>
-                                    <Text style={styles.light_text}>
-                                        14:00 ~ 15:00
-                                </Text>
-                                </View>
-                                <View style={styles.block_right_container}>
-                                    <Text style={styles.light_text}>
-                                        월
-                                </Text>
-                                    <Text style={styles.image_text}>
-                                        >
-                                </Text>
-                                </View>
-                            </View>
-                        </TouchableWithoutFeedback>
+                        <Block props={this.props} name="정보보호프로젝트설계실습1(캡스톤디자인)"/>
+                        <Block props={this.props} name="취창업 성공전략 "/>
                     </ScrollView>
                 </View>
             </View>
         )
     }
+}
+
+function Block(props){
+    console.log(props);
+    return (
+        <TouchableWithoutFeedback onPress={()=>{
+            props.props.navigation.navigate( 'ProSubDetail', {
+                name : props.name
+            })
+        }}>
+            <View style={styles.block_container}>
+                <View style={styles.block_left_container}>
+                    <Text style={styles.bold_text}>
+                        {props.name}
+                </Text>
+                    <Text style={styles.light_text}>
+                        14:00 ~ 15:00
+                </Text>
+                </View>
+                <View style={styles.block_right_container}>
+                    <Text style={styles.light_text}>
+                        월
+                </Text>
+                    <Text style={styles.image_text}>
+                        >
+                </Text>
+                </View>
+            </View>
+        </TouchableWithoutFeedback>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -98,11 +108,11 @@ const styles = StyleSheet.create({
     bold_text : {
         fontWeight : "bold",
         fontStyle : "italic",
-        fontSize : 26
+        fontSize : 15
 
     },
     light_text : {
-        fontSize : 16,
+        fontSize : 14,
         fontWeight : "100",
         color : "#808080"
     },

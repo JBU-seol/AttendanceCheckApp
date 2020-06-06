@@ -6,7 +6,9 @@ import ProSub from '../routes/ProSub'
 import ProSubDetail from '../routes/ProSubDetail'
 
 const ProMainNavigator = createStackNavigator({
-    ProHome: ProHome
+    ProHome: ProHome,
+    ProSub : ProSub,
+    ProSubDetail : ProSubDetail
 });
 
 const MainAppContainer = createAppContainer(ProMainNavigator);

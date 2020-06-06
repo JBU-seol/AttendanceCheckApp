@@ -18,5 +18,4 @@ export default class App extends React.Component {
       isLoading ? <Load /> : <Login />
     );
   }
-  
 }

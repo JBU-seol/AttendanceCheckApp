@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'
 import logo from '../../assets/jbu_logo-removebg-preview.png'
 
-const { width, height } = Dimensions.get("window");
+const { width} = Dimensions.get("window");
 
 export default function Load() {
     return (
@@ -30,9 +30,9 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     title: {
-        fontSize: 30,
+        fontSize: 40,
         fontWeight: "bold",
-        color: "#a73737",
+        color: "#b22222",
         marginBottom: 50
     }
 })

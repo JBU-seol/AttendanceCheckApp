@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet, View, Text, Dimensions, Image, TouchableOpacity, Alert} from 'react-native';
 
+
 import picturelogo from '../../assets/jbu_logo-removebg-preview.png';
 import textlogo from '../../assets/jbu_kr-removebg-preview.png';
-
 import personal from '../../assets/personal.png';
 import week from '../../assets/week.png';
 import settings from '../../assets/settings.png';
@@ -13,7 +13,10 @@ const {width, height} = Dimensions.get("window");
 
 export default class ProHome extends React.Component{
     static navigationOptions={
-        headerShown : false
+        headerShown : false,
+        headerStyle: {
+            backgroundColor: "#dcdcdc"
+        }
     };
 
     render() {
@@ -44,9 +47,9 @@ export default class ProHome extends React.Component{
                     </View>
                     <View style={styles.mainrightcontainer}>
                         <View style={styles.week}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=> this.props.navigation.navigate( 'ProSub')}>
                                 <Image style={styles.imagesetting} source={week} />
-                            </TouchableOpacity>
+                            </TouchableOpacity >
                             <Text style={styles.textsettings}>
                                 주차별 출석현황
                             </Text>

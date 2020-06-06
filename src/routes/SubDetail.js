@@ -1,7 +1,30 @@
 import React from 'react';
 import {StyleSheet, View, Text, ScrollView, Dimensions} from 'react-native'
 
-const {width, height} = Dimensions.get("window");
+const {width} = Dimensions.get("window");
+const DATA = [
+    {
+        id : '1',
+        day : ["9월7일", "9월14일", "9월21일", "9월28일", "10월5일", "10월12일", "10월19일", "10월26일", "11월2일", "11월9일", "11월16일", "11월23일", "11월30일", "12월7일", "12월14일"]
+    },
+    {
+        id : '2',
+        day : ["9월8일", "9월15일", "9월22일", "9월29일", "10월6일", "10월13일", "10월20일", "10월27일", "11월3일", "11월10일", "11월17일", "11월24일", "12월1일", "12월8일", "12월15일"]
+    },
+    {
+        id : '3',
+        day : ["9월9일", "9월16일", "9월23일", "9월30일", "10월7일", "10월14일", "10월21일", "10월28일", "11월4일", "11월11일", "11월18일", "11월25일", "12월2일", "12월9일", "12월16일"]
+    },
+    {
+        id : '4',
+        day : ["9월10일", "9월17일", "9월24일", "10월1일", "10월8일", "10월15일", "10월22일", "10월29일", "11월5일", "11월12일", "11월19일", "11월26일", "12월3일", "12월10일", "12월17일"]
+    },
+    {
+        id : '5',
+        day : ["9월11일", "9월18일", "9월25일", "10월2일", "10월9일", "10월16일", "10월23일", "10월30일", "11월6일", "11월13일", "11월20일", "11월27일", "12월4일", "12월11일", "12월18일"]
+    }
+
+]
 
 export default class SubDetail extends React.Component{
     static navigationOptions = {
@@ -12,32 +35,24 @@ export default class SubDetail extends React.Component{
         },
     }
 
-    state = {
-        monday : ["9월7일", "9월14일", "9월21일", "9월28일", "10월5일", "10월12일", "10월19일", "10월26일", "11월2일", "11월9일", "11월16일", "11월23일", "11월30일", "12월7일", "12월14일"],
-        tueday : ["9월8일", "9월15일", "9월22일", "9월29일", "10월6일", "10월13일", "10월20일", "10월27일", "11월3일", "11월10일", "11월17일", "11월24일", "12월1일", "12월8일", "12월15일"],
-        wenday : ["9월9일", "9월16일", "9월23일", "9월30일", "10월7일", "10월14일", "10월21일", "10월28일", "11월4일", "11월11일", "11월18일", "11월25일", "12월2일", "12월9일", "12월16일"],
-        thuday : ["9월10일", "9월17일", "9월24일", "10월1일", "10월8일", "10월15일", "10월22일", "10월29일", "11월5일", "11월12일", "11월19일", "11월26일", "12월3일", "12월10일", "12월17일"],
-        friday : ["9월11일", "9월18일", "9월25일", "10월2일", "10월9일", "10월16일", "10월23일", "10월30일", "11월6일", "11월13일", "11월20일", "11월27일", "12월4일", "12월11일", "12월18일"]
-    }
-
     render() {
         console.log(this.props.navigation.state.params);
         const lectureObj = this.props.navigation.state.params;
         let daylist = [];
         if ( lectureObj.LectureTime.day === "9월7일"){
-            daylist = this.state.monday
+            daylist = DATA[0].day
         }
         else if( lectureObj.LectureTime.day === "9월8일"){
-            daylist = this.state.tueday
+            daylist = DATA[1].day
         }
         else if( lectureObj.LectureTime.day === "9월9일"){
-            daylist = this.state.wenday
+            daylist = DATA[2].day
         }
         else if( lectureObj.LectureTime.day === "9월10일"){
-            daylist = this.state.thuday
+            daylist = DATA[3].day
         }
         else if( lectureObj.LectureTime.day === "9월11일"){
-            daylist = this.state.friday
+            daylist = DATA[4].day
         }
         return (
             <View style={styles.container}>
@@ -45,16 +60,21 @@ export default class SubDetail extends React.Component{
                     <Text style={styles.infotext}>
                         {lectureObj.lecture_name}
                     </Text>
-                    <Text style={styles.infotext}>
-                        {this.props.screenProps.name} 출석상세
+                    <View style={{ flexDirection: "row"}} >
+                    <Text style={styles.infotext_dark}>
+                        {this.props.screenProps.name} 
                     </Text>
+                    <Text style={styles.infotext}>
+                        출석상세
+                    </Text>
+                    </View>
                     <Text style={styles.infotext}>
                         출석: 지각: 조퇴: 결석:
                     </Text>
                 </View>
                 <View style={styles.detailcard}>
                     <ScrollView style={styles.detailscroll}>
-                        <View style={styles.firstweek}>
+                    <View style={styles.firstweek}>
                             <View style={styles.firstweektop}>
                                 <Text style={{fontSize: 20, fontWeight:"bold",
                             padding: 25}}>
@@ -244,13 +264,13 @@ export default class SubDetail extends React.Component{
                                 <Text style={styles.weekbottomtextborder}>출석or결석</Text>
                             </View>
                         </View>
-
                     </ScrollView>
                 </View>
             </View>
         )
     }
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -263,6 +283,13 @@ const styles = StyleSheet.create({
     infotext: {
         color: "#fff",
         fontSize: 20,
+        paddingHorizontal: 10,
+        paddingVertical: 5
+    },
+    infotext_dark: {
+        color: "black",
+        fontSize: 22,
+        fontWeight : "normal",
         paddingHorizontal: 10,
         paddingVertical: 5
     },

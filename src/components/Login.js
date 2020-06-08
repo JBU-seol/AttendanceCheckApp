@@ -3,13 +3,12 @@ import { StyleSheet, Text, View, StatusBar, TextInput, TouchableOpacity,
 Dimensions, Alert, Image } from 'react-native';
 import * as Network from 'expo-network';
 import * as SQLite from 'expo-sqlite';
-//import {SQLite} from 'expo';
-const {width, height} = Dimensions.get("window");
-const API = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/login/";
 import logo from '../../assets/jbu_logo-removebg-preview.png';
 import MainNavigator from "./Main";
 import ProMainNavigator from "./ProMain";
 
+const {width, height} = Dimensions.get("window");
+const API = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/login/";
 const db = SQLite.openDatabase("www.db");
 let dbLength, dbarr, dbNumber, dbMac;
 
@@ -92,7 +91,7 @@ export default class Login extends React.Component {
         }
     }
 
-      _gotoMain = () => {
+    _gotoMain = () => {
           const { studentCode, macAddress } = this.state;
           if( studentCode !== "" && macAddress !== ""){
               this._getAuthAsync();
@@ -101,6 +100,17 @@ export default class Login extends React.Component {
               Alert.alert("학번을 입력해주세요")
           }
       }
+
+    _editInput = text => {
+        this.setState({
+            studentCode: text
+        })
+    }
+    _editMac = text => {
+        this.setState({
+            macAddress: text
+        })
+    }
 
     componentDidMount() {
         this._getData();
@@ -134,7 +144,6 @@ export default class Login extends React.Component {
                         </Text>
                         <TextInput style={styles.inputcard} 
                         maxLength={10}
-                        keyboardType={"number-pad"}
                         placeholder={"Your Student Code  ex ) 91512345"}
                         placeholderTextColor={"#eff"}
                         value={this.state.studentCode}
@@ -159,24 +168,15 @@ export default class Login extends React.Component {
             )
         } else {
             if ( studentName.substr(0,3) === 'Pro'){
-                return <ProMainNavigator />;
+                return <ProMainNavigator screenProps={{code:this.state.studentCode,
+                    name:this.state.studentName}}/>;
             }
             else{
-                return <MainNavigator screenProps={{code:this.state.studentCode, name:this.state.studentName}}/>
+                return <MainNavigator screenProps={{code:this.state.studentCode,
+                    name:this.state.studentName}}/>
             }
         }
         
-    }
-
-    _editInput = text => {
-        this.setState({
-            studentCode: text
-        })
-    }
-    _editMac = text => {
-        this.setState({
-            macAddress: text
-        })
     }
 
 }

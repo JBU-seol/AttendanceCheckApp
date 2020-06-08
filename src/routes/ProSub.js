@@ -17,6 +17,8 @@ export default class ProSub extends React.Component {
     }
 
     render(){
+        const { LectureName } = this.props.navigation.state.params;
+        console.log(LectureName);
         return (
             <View style={styles.container}>
                 <View style={styles.main_container}>
@@ -31,7 +33,7 @@ export default class ProSub extends React.Component {
 }
 
 function Block(props){
-    console.log(props);
+    //console.log(props);
     return (
         <TouchableWithoutFeedback onPress={()=>{
             props.props.navigation.navigate( 'ProSubDetail', {

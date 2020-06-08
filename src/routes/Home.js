@@ -15,11 +15,6 @@ const getIdAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com
 const getNameAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/course_name";
 const getTimeAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/course_time";
 
-const Monlec = []
-const Tuelec = []
-const Wenlec = []
-const Thulec = []
-//const Frilec = []
 export default class Home extends React.Component{
     static navigationOptions={
         headerShown : false

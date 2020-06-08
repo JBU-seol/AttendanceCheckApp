@@ -1,4 +1,3 @@
-import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator} from 'react-navigation-stack';
 
@@ -11,12 +10,6 @@ const MainNavigator = createStackNavigator({
     Sub: Sub,
     SubDetail: SubDetail
 });
-
-// class Main extends React.Component{
-//     render(){
-//         return <MainNavigator />;
-//     }
-// }
 
 const AppContainer = createAppContainer(MainNavigator);
 

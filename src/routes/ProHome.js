@@ -11,6 +11,7 @@ import letter from '../../assets/letter.png';
 
 const getIdAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/pro_course_id";
 const getNameAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/course_name";
+const getTimeAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/course_time";
 const {width, height} = Dimensions.get("window");
 
 export default class ProHome extends React.Component{
@@ -22,7 +23,26 @@ export default class ProHome extends React.Component{
     };
 
     state = {
+        LectureTime : [],
         LectureName : []
+    }
+
+    _getLectureTime = async(id) => {
+        try {
+            let response = await fetch(getTimeAPI, {
+                method: 'POST',
+                body: JSON.stringify({
+                    id: id,
+                }),
+            })
+            let responseJson = await response.json();
+            //console.log(responseJson[id]);
+            this.setState({ 
+                LectureTime : this.state.LectureTime.concat(responseJson[id])
+            })
+        } catch(error){
+            Alert.alert(error)
+        }
     }
 
     _getLectureName = async(lecture_id) => {
@@ -38,7 +58,7 @@ export default class ProHome extends React.Component{
             this.setState( {
                 LectureName : this.state.LectureName.concat(responseJson)
             })
-            //this._getLectureTime(responseJson.id);
+            this._getLectureTime(responseJson.id);
         } catch(error){
             Alert.alert(error)
         }
@@ -96,7 +116,8 @@ export default class ProHome extends React.Component{
                     <View style={styles.mainrightcontainer}>
                         <View style={styles.week}>
                             <TouchableOpacity onPress={()=> this.props.navigation.navigate( 'ProSub',{
-                                LectureName : this.state.LectureName
+                                LectureName : this.state.LectureName,
+                                LectureTime : this.state.LectureTime,
                             })}>
                                 <Image style={styles.imagesetting} source={week} />
                             </TouchableOpacity >

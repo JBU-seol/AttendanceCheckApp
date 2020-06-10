@@ -17,8 +17,8 @@ export default class ProSubDetailWeek extends React.Component {
     }
 
     render() {
-        //console.log(this.props.navigation.state.params.week);
-        
+        //console.log(this.props.navigation.state.params.students);
+        let studentList = this.props.navigation.state.params.students;
         return (
             <View style={styles.container}>
                 <View style={styles.sub_container}>
@@ -34,13 +34,17 @@ export default class ProSubDetailWeek extends React.Component {
                         <Text style={styles.topText}>기타</Text>
                     </View>
                     <ScrollView >
-                        <View style={styles.detailBox}>
-                            <Text style={styles.topText}>이슬기</Text>
-                            <Text style={styles.topText}>91514878</Text>
-                            <Text style={styles.topTextBorder}>출석 여부</Text>
-                            <Text style={styles.topTextBorder}>상세</Text>
-                            <Text style={styles.topTextBorder}>변경</Text>
-                        </View>
+                        {studentList.map( (obj, i) => {
+                            return (
+                                <View key={i} style={styles.detailBox}>
+                                    <Text style={styles.topText}>{obj.name}</Text>
+                                    <Text style={styles.topText}>{obj.grade_number}</Text>
+                                    <Text style={styles.topTextBorder}>출석 여부</Text>
+                                    <Text style={styles.topTextBorder}>상세</Text>
+                                    <Text style={styles.topTextBorder}>변경</Text>
+                                </View>
+                            )
+                        })}
                         
                     </ScrollView>
                 </View>

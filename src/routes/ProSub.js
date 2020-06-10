@@ -17,14 +17,30 @@ export default class ProSub extends React.Component {
     }
 
     render(){
-        const { LectureName } = this.props.navigation.state.params;
-        console.log(LectureName);
+        const { LectureName, LectureTime } = this.props.navigation.state.params;
+        //console.log(LectureName);
+        //console.log(LectureTime);
         return (
             <View style={styles.container}>
                 <View style={styles.main_container}>
                     <ScrollView>
-                        <Block props={this.props} name="정보보호프로젝트설계실습1(캡스톤디자인)"/>
-                        <Block props={this.props} name="취창업 성공전략 "/>
+                        {
+                            LectureName.map( (obj, i) => {
+                                let stime, etime, day;
+                                LectureTime.map( value => {
+                                    if( obj.id === value.id){
+                                        stime = value.start_time;
+                                        etime = value.finish_time;
+                                        day = value.which_day;
+                                    }
+                                })
+                                return (
+                                    <Block key={i} props={this.props} name= {obj.lecture_name}
+                                    room = {obj.lecture_room}
+                                    stime = {stime} etime={etime} day={day} />
+                                )
+                            })
+                        }
                     </ScrollView>
                 </View>
             </View>
@@ -37,7 +53,8 @@ function Block(props){
     return (
         <TouchableWithoutFeedback onPress={()=>{
             props.props.navigation.navigate( 'ProSubDetail', {
-                name : props.name
+                name : props.name,
+                room : props.room
             })
         }}>
             <View style={styles.block_container}>
@@ -46,12 +63,12 @@ function Block(props){
                         {props.name}
                 </Text>
                     <Text style={styles.light_text}>
-                        14:00 ~ 15:00
+                        {props.stime} ~ {props.etime}
                 </Text>
                 </View>
                 <View style={styles.block_right_container}>
                     <Text style={styles.light_text}>
-                        월
+                        {props.day}
                 </Text>
                     <Text style={styles.image_text}>
                         >
@@ -109,8 +126,8 @@ const styles = StyleSheet.create({
     },
     bold_text : {
         fontWeight : "bold",
-        fontStyle : "italic",
-        fontSize : 15
+        fontSize : 15,
+        paddingVertical : 5
 
     },
     light_text : {
@@ -120,6 +137,6 @@ const styles = StyleSheet.create({
     },
     image_text : {
         padding : 10,
-        fontSize : 40
+        fontSize : 30
     }
 })

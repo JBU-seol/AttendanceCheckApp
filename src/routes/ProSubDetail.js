@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, Text, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, Dimensions, Platform, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+const getAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/student_list";
 const { width, heigth } = Dimensions.get("window");
 
 export default class ProSubDetail extends React.Component {
@@ -16,42 +17,85 @@ export default class ProSubDetail extends React.Component {
         }
     }
 
+    state = {
+        date : "",
+        students : []
+    }
+
+    getStudentList = async() => {
+        try {
+            let response = await fetch( getAPI , {
+                method : 'POST',
+                body: JSON.stringify({
+                    lecture_name : this.props.navigation.state.params.name
+                }),
+            });
+            let responseJson = await response.json();
+            //console.log(responseJson);
+            this.setState({
+                students : responseJson.students
+            })
+        }
+        catch(error) {
+            Alert.alert("error");
+        }
+    }
+
+    componentDidMount() {
+        var date = new Date().getDate(); //Current Date
+        var month = new Date().getMonth() + 1; //Current Month
+        var year = new Date().getFullYear(); //Current Year
+        var hours = new Date().getHours(); //Current Hours
+        var min = new Date().getMinutes(); //Current Minutes
+        this.setState({
+            //Setting the value of the date time
+            date: year + '년 ' + month + '월 ' + date + '일    ' + hours + '시 ' + min + "분",
+        });
+        this.getStudentList();
+    }
+
     render(){
+        //console.log(this.state.students)
         return (
             <View style={styles.container}>
                 <View style={styles.main_container}>
                     <View style={styles.circle_container}>
-                        <Circle prop = {this.props} number="01 "/>
-                        <Circle prop = {this.props} number="02" />
-                        <Circle prop = {this.props} number="03" />
-                        <Circle prop = {this.props} number="04" />
+                        <Circle prop = {this.props} number="01" students={this.state.students}/>
+                        <Circle prop = {this.props} number="02" students={this.state.students}/>
+                        <Circle prop = {this.props} number="03" students={this.state.students}/>
+                        <Circle prop = {this.props} number="04" students={this.state.students}/>
                     </View>
                     <View style={styles.circle_container}>
-                        <Circle prop = {this.props} number="05" />
-                        <Circle prop = {this.props} number="06" />
-                        <Circle prop = {this.props} number="07" />
-                        <Circle prop = {this.props} number="08" />
+                        <Circle prop = {this.props} number="05" students={this.state.students}/>
+                        <Circle prop = {this.props} number="06" students={this.state.students}/>
+                        <Circle prop = {this.props} number="07" students={this.state.students}/>
+                        <Circle prop = {this.props} number="08" students={this.state.students}/>
                     </View>
                     <View style={styles.circle_container}>
-                        <Circle prop = {this.props} number="09" />
-                        <Circle prop = {this.props} number="10" />
-                        <Circle prop = {this.props} number="11" />
-                        <Circle prop = {this.props} number="12" />
+                        <Circle prop = {this.props} number="09" students={this.state.students}/>
+                        <Circle prop = {this.props} number="10" students={this.state.students}/>
+                        <Circle prop = {this.props} number="11" students={this.state.students}/>
+                        <Circle prop = {this.props} number="12" students={this.state.students}/>
                     </View>
                     <View style={styles.circle_container}>
-                        <Circle prop = {this.props} number="13" />
-                        <Circle prop = {this.props} number="14" />
-                        <Circle prop = {this.props} number="15" />
-                        <Circle prop = {this.props} number="16" />
+                        <Circle prop = {this.props} number="13" students={this.state.students}/>
+                        <Circle prop = {this.props} number="14" students={this.state.students}/>
+                        <Circle prop = {this.props} number="15" students={this.state.students}/>
+                        <Circle prop = {this.props} number="16" students={this.state.students}/>
                     </View>
                 </View>
                 <View style={styles.sub_container}>
 
-                    <Text style={styles.sub_text}>2020년 월 일</Text>
+                    <Text style={styles.sub_text}>
+                        {this.state.date}
+                    </Text>
                     <Text style={styles.sub_text}>강의명 : 
                     {this.props.navigation.state.params.name}</Text>
-                    <Text style={styles.sub_text}>강의실:</Text>
-                    <Text style={styles.sub_text}>수강인원: </Text>
+                    <Text style={styles.sub_text}>강의실 : 
+                    {this.props.navigation.state.params.room}
+                    </Text>
+                    <Text style={styles.sub_text}>수강인원:
+                    {this.state.students.length}명</Text>
                 </View>
             </View>
         )
@@ -59,11 +103,12 @@ export default class ProSubDetail extends React.Component {
 }
 
 function Circle(props) {
-    console.log(props);
+    //console.log(props);
     return (
         <TouchableOpacity onPress={ () => {
             props.prop.navigation.navigate( 'ProSubDetailWeek', {
-                week : props.number
+                week : props.number,
+                students : props.students
             })
         }}>
             <Text style={styles.main_text}>

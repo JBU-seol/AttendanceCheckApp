@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text, ScrollView, Dimensions} from 'react-native'
 
+const API = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/week_list";
 const {width} = Dimensions.get("window");
 const DATA = [
     {
@@ -35,10 +36,42 @@ export default class SubDetail extends React.Component{
         },
     }
 
+    state = {
+        week : []
+    }
+
+    getAttendanceInfo = async() => {
+        const lecture_name = this.props.navigation.state.params.lecture_name;
+        const grade_number = this.props.screenProps.code;
+        let response = await fetch(API, {
+            method : 'POST',
+            body : JSON.stringify({
+                lecture_name : lecture_name,
+                grade_number : grade_number
+            })
+        })
+        let responseJson = await response.json();
+        //console.log(responseJson);
+        this.setState({
+            week : responseJson.week
+        })
+    }
+
+    componentDidMount() {
+        this.getAttendanceInfo();
+    }
+
     render() {
-        console.log(this.props.navigation.state.params);
+        //console.log(this.props.navigation.state.params);
+        //console.log(this.props.screenProps.code);
         const lectureObj = this.props.navigation.state.params;
+        let week = this.state.week;
         let daylist = [];
+        let attOK = 0, attnotOK = 0;
+        for( let i =0 ; i< week.length; i++){
+            if( week[i] === false) attnotOK++;
+            else if( week[i] === true) attOK++;
+        }
         if ( lectureObj.LectureTime.day === "9월7일"){
             daylist = DATA[0].day
         }
@@ -69,7 +102,7 @@ export default class SubDetail extends React.Component{
                     </Text>
                     </View>
                     <Text style={styles.infotext}>
-                        출석: 지각: 조퇴: 결석:
+                        출석: {attOK} 결석: {attnotOK}
                     </Text>
                 </View>
                 <View style={styles.detailcard}>
@@ -90,7 +123,19 @@ export default class SubDetail extends React.Component{
                                 </Text>
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
-                                <Text style={styles.weekbottomtextborder}>출석or결석</Text>
+                                {
+                                    this.state.week[0] && (
+                                        <Text style={styles.weekbottomtextborderOK}>
+                                            출 석
+                                        </Text>
+                                    )
+                                }{
+                                    (!this.state.week[0]) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            결 석
+                                        </Text>
+                                    )
+                                }
                             </View>
                         </View>
                         <View style={styles.secondweek}>
@@ -109,7 +154,19 @@ export default class SubDetail extends React.Component{
                                 <Text style={styles.weekbottomtext}>{daylist[1]}</Text>
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
-                                <Text style={styles.weekbottomtextborder}>출석or결석</Text>
+                                {
+                                    this.state.week[1] && (
+                                        <Text style={styles.weekbottomtextborderOK}>
+                                            출 석
+                                        </Text>
+                                    )
+                                }{
+                                    (!this.state.week[1]) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            결 석
+                                        </Text>
+                                    )
+                                }
                             </View>
                         </View>
                         <View style={styles.secondweek}>
@@ -128,7 +185,19 @@ export default class SubDetail extends React.Component{
                             <Text style={styles.weekbottomtext}>{daylist[2]}</Text>
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
-                                <Text style={styles.weekbottomtextborder}>출석or결석</Text>
+                                {
+                                    this.state.week[2] && (
+                                        <Text style={styles.weekbottomtextborderOK}>
+                                            출 석
+                                        </Text>
+                                    )
+                                }{
+                                    (!this.state.week[2]) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            결 석
+                                        </Text>
+                                    )
+                                }
                             </View>
                         </View>
                         <View style={styles.secondweek}>
@@ -147,7 +216,19 @@ export default class SubDetail extends React.Component{
                             <Text style={styles.weekbottomtext}>{daylist[3]}</Text>
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
-                                <Text style={styles.weekbottomtextborder}>출석or결석</Text>
+                                {
+                                    this.state.week[3] && (
+                                        <Text style={styles.weekbottomtextborderOK}>
+                                            출 석
+                                        </Text>
+                                    )
+                                }{
+                                    (!this.state.week[3]) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            결 석
+                                        </Text>
+                                    )
+                                }
                             </View>
                         </View>
                         <View style={styles.secondweek}>
@@ -166,7 +247,19 @@ export default class SubDetail extends React.Component{
                             <Text style={styles.weekbottomtext}>{daylist[4]}</Text>
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
-                                <Text style={styles.weekbottomtextborder}>출석or결석</Text>
+                                {
+                                    this.state.week[4] && (
+                                        <Text style={styles.weekbottomtextborderOK}>
+                                            출 석
+                                        </Text>
+                                    )
+                                }{
+                                    (!this.state.week[4]) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            결 석
+                                        </Text>
+                                    )
+                                }
                             </View>
                         </View>
                         <View style={styles.secondweek}>
@@ -185,7 +278,19 @@ export default class SubDetail extends React.Component{
                             <Text style={styles.weekbottomtext}>{daylist[5]}</Text>
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
-                                <Text style={styles.weekbottomtextborder}>출석or결석</Text>
+                                {
+                                    this.state.week[5] && (
+                                        <Text style={styles.weekbottomtextborderOK}>
+                                            출 석
+                                        </Text>
+                                    )
+                                }{
+                                    (!this.state.week[5]) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            결 석
+                                        </Text>
+                                    )
+                                }
                             </View>
                         </View>
                         <View style={styles.secondweek}>
@@ -204,7 +309,19 @@ export default class SubDetail extends React.Component{
                             <Text style={styles.weekbottomtext}>{daylist[6]}</Text>
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
-                                <Text style={styles.weekbottomtextborder}>출석or결석</Text>
+                                {
+                                    this.state.week[6] && (
+                                        <Text style={styles.weekbottomtextborderOK}>
+                                            출 석
+                                        </Text>
+                                    )
+                                }{
+                                    (!this.state.week[6]) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            결 석
+                                        </Text>
+                                    )
+                                }
                             </View>
                         </View>
                         <View style={styles.secondweek}>
@@ -223,7 +340,19 @@ export default class SubDetail extends React.Component{
                             <Text style={styles.weekbottomtext}>{daylist[7]}</Text>
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
-                                <Text style={styles.weekbottomtextborder}>출석or결석</Text>
+                                {
+                                    this.state.week[7] && (
+                                        <Text style={styles.weekbottomtextborderOK}>
+                                            출 석
+                                        </Text>
+                                    )
+                                }{
+                                    (!this.state.week[7]) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            결 석
+                                        </Text>
+                                    )
+                                }
                             </View>
                         </View>
                         <View style={styles.secondweek}>
@@ -242,7 +371,19 @@ export default class SubDetail extends React.Component{
                             <Text style={styles.weekbottomtext}>{daylist[8]}</Text>
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
-                                <Text style={styles.weekbottomtextborder}>출석or결석</Text>
+                                {
+                                    this.state.week[8] && (
+                                        <Text style={styles.weekbottomtextborderOK}>
+                                            출 석
+                                        </Text>
+                                    )
+                                }{
+                                    (!this.state.week[8]) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            결 석
+                                        </Text>
+                                    )
+                                }
                             </View>
                         </View>
                         <View style={styles.secondweek}>
@@ -261,7 +402,19 @@ export default class SubDetail extends React.Component{
                             <Text style={styles.weekbottomtext}>{daylist[9]}</Text>
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
-                                <Text style={styles.weekbottomtextborder}>출석or결석</Text>
+                                {
+                                    this.state.week[9] && (
+                                        <Text style={styles.weekbottomtextborderOK}>
+                                            출 석
+                                        </Text>
+                                    )
+                                }{
+                                    (!this.state.week[9]) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            결 석
+                                        </Text>
+                                    )
+                                }
                             </View>
                         </View>
                     </ScrollView>
@@ -323,13 +476,22 @@ const styles = StyleSheet.create({
         margin: 10,
         padding: 5
     },
-    weekbottomtextborder:{
-        fontSize: 20,
+    weekbottomtextborderOK:{
+        fontSize: 22,
         padding: 5,
         borderRadius: 10,
         borderWidth: 1,
         margin: 10,
         color: "#3333cc",
+        fontWeight: "bold"
+    },
+    weekbottomtextborder:{
+        fontSize: 22,
+        padding: 5,
+        borderRadius: 10,
+        borderWidth: 1,
+        margin: 10,
+        color: "red",
         fontWeight: "bold"
     }
 })

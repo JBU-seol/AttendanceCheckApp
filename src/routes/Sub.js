@@ -62,7 +62,7 @@ export default class Sub extends React.Component {
         //this.props.navigation.state.params == 강의명&시간 정보
         const { LectureName, LectureTime } = this.props.navigation.state.params;
         let lecture_stime, lecture_etime;
-        //console.log(this.props.navigation.state.params)
+        console.log(this.props.navigation.state.params)
       return (
           <ScrollView>
               <View style={styles.container}>

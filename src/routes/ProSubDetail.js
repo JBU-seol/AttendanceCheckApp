@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Dimensions, Platform, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const getAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/student_list";
+const getAPI = "http://ec2-3-35-28-254.ap-northeast-2.compute.amazonaws.com:1234/members/student_list";
 const { width, heigth } = Dimensions.get("window");
 
 export default class ProSubDetail extends React.Component {
@@ -31,6 +31,7 @@ export default class ProSubDetail extends React.Component {
                 }),
             });
             let responseJson = await response.json();
+            //console.log(this.props.navigation.state.params.name);
             //console.log(responseJson);
             this.setState({
                 students : responseJson.students
@@ -60,28 +61,28 @@ export default class ProSubDetail extends React.Component {
             <View style={styles.container}>
                 <View style={styles.main_container}>
                     <View style={styles.circle_container}>
-                        <Circle prop = {this.props} number="01" students={this.state.students}/>
-                        <Circle prop = {this.props} number="02" students={this.state.students}/>
-                        <Circle prop = {this.props} number="03" students={this.state.students}/>
-                        <Circle prop = {this.props} number="04" students={this.state.students}/>
+                        <Circle prop = {this.props} number="01" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
+                        <Circle prop = {this.props} number="02" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
+                        <Circle prop = {this.props} number="03" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
+                        <Circle prop = {this.props} number="04" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
                     </View>
                     <View style={styles.circle_container}>
-                        <Circle prop = {this.props} number="05" students={this.state.students}/>
-                        <Circle prop = {this.props} number="06" students={this.state.students}/>
-                        <Circle prop = {this.props} number="07" students={this.state.students}/>
-                        <Circle prop = {this.props} number="08" students={this.state.students}/>
+                        <Circle prop = {this.props} number="05" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
+                        <Circle prop = {this.props} number="06" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
+                        <Circle prop = {this.props} number="07" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
+                        <Circle prop = {this.props} number="08" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
                     </View>
                     <View style={styles.circle_container}>
-                        <Circle prop = {this.props} number="09" students={this.state.students}/>
-                        <Circle prop = {this.props} number="10" students={this.state.students}/>
-                        <Circle prop = {this.props} number="11" students={this.state.students}/>
-                        <Circle prop = {this.props} number="12" students={this.state.students}/>
+                        <Circle prop = {this.props} number="09" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
+                        <Circle prop = {this.props} number="10" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
+                        <Circle prop = {this.props} number="11" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
+                        <Circle prop = {this.props} number="12" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
                     </View>
                     <View style={styles.circle_container}>
-                        <Circle prop = {this.props} number="13" students={this.state.students}/>
-                        <Circle prop = {this.props} number="14" students={this.state.students}/>
-                        <Circle prop = {this.props} number="15" students={this.state.students}/>
-                        <Circle prop = {this.props} number="16" students={this.state.students}/>
+                        <Circle prop = {this.props} number="13" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
+                        <Circle prop = {this.props} number="14" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
+                        <Circle prop = {this.props} number="15" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
+                        <Circle prop = {this.props} number="16" students={this.state.students} lecture_name={this.props.navigation.state.params.name}/>
                     </View>
                 </View>
                 <View style={styles.sub_container}>
@@ -106,9 +107,11 @@ function Circle(props) {
     //console.log(props);
     return (
         <TouchableOpacity onPress={ () => {
+            this._
             props.prop.navigation.navigate( 'ProSubDetailWeek', {
                 week : props.number,
-                students : props.students
+                students : props.students,
+                lecture_name: props.lecture_name
             })
         }}>
             <Text style={styles.main_text}>

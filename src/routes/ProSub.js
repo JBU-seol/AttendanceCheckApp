@@ -18,7 +18,7 @@ export default class ProSub extends React.Component {
 
     render(){
         const { LectureName, LectureTime } = this.props.navigation.state.params;
-        //console.log(LectureName);
+        console.log(LectureName);
         //console.log(LectureTime);
         return (
             <View style={styles.container}>
@@ -71,7 +71,7 @@ function Block(props){
                         {props.day}
                 </Text>
                     <Text style={styles.image_text}>
-                        >
+                        
                 </Text>
                 </View>
             </View>

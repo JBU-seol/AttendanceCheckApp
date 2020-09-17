@@ -9,9 +9,9 @@ import week from '../../assets/week.png';
 import settings from '../../assets/settings.png';
 import letter from '../../assets/letter.png';
 
-const getIdAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/pro_course_id";
-const getNameAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/course_name";
-const getTimeAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/course_time";
+const getIdAPI = "http://ec2-3-35-28-254.ap-northeast-2.compute.amazonaws.com:1234/members/pro_course_id";
+const getNameAPI = "http://ec2-3-35-28-254.ap-northeast-2.compute.amazonaws.com:1234/members/course_name";
+const getTimeAPI = "http://ec2-3-35-28-254.ap-northeast-2.compute.amazonaws.com:1234/members/course_time";
 const {width, height} = Dimensions.get("window");
 
 export default class ProHome extends React.Component{
@@ -41,7 +41,7 @@ export default class ProHome extends React.Component{
                 LectureTime : this.state.LectureTime.concat(responseJson[id])
             })
         } catch(error){
-            Alert.alert(error)
+            Alert.alert(error + "1")
         }
     }
 
@@ -60,12 +60,13 @@ export default class ProHome extends React.Component{
             })
             this._getLectureTime(responseJson.id);
         } catch(error){
-            Alert.alert(error)
+            Alert.alert(error + "2")
         }
     }
 
     _getLectureID = async() => {
         try{
+            console.log(this.props.screenProps.code);
             let response = await fetch(getIdAPI, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -79,7 +80,7 @@ export default class ProHome extends React.Component{
             }
             
         } catch(error){
-            Alert.alert("error")
+            Alert.alert(error+"3")
         }
     }
 

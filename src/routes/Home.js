@@ -11,9 +11,9 @@ import question from '../../assets/question2.png';
 import qna from '../../assets/qna.png';
 
 const {width, height} = Dimensions.get("window");
-const getIdAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/course_id";
-const getNameAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/course_name";
-const getTimeAPI = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/course_time";
+const getIdAPI = "http://ec2-3-35-28-254.ap-northeast-2.compute.amazonaws.com:1234/members/course_id";
+const getNameAPI = "http://ec2-3-35-28-254.ap-northeast-2.compute.amazonaws.com:1234/members/course_name";
+const getTimeAPI = "http://ec2-3-35-28-254.ap-northeast-2.compute.amazonaws.com:1234/members/course_time";
 
 export default class Home extends React.Component{
     static navigationOptions={

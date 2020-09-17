@@ -8,8 +8,8 @@ import MainNavigator from "./Main";
 import ProMainNavigator from "./ProMain";
 
 const {width, height} = Dimensions.get("window");
-const API = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/login/";
-const db = SQLite.openDatabase("www.db");
+const API = "http://ec2-3-35-28-254.ap-northeast-2.compute.amazonaws.com:1234/login/";
+const db = SQLite.openDatabase("mac.db");
 let dbLength, dbarr, dbNumber, dbMac;
 
 export default class Login extends React.Component {
@@ -23,8 +23,11 @@ export default class Login extends React.Component {
     _getData = async() => {
         try{
             const mac = await Network.getMacAddressAsync("wlan0");
+            //console.log(mac);
+            const macSplit = mac.split(':');
+            const macJoin = macSplit.join('');
             this.setState({
-                macAddress: mac
+                macAddress: macJoin
             })
             db.transaction( tx => {
                 tx.executeSql(
@@ -42,6 +45,8 @@ export default class Login extends React.Component {
                             })
                         }
                     }
+
+                    
                 );
             });
         } catch(error){
@@ -51,6 +56,7 @@ export default class Login extends React.Component {
 
     _getAuthAsync = async() => {
         const {studentCode, macAddress} = this.state; 
+        console.log(studentCode)
         try {
             let response = await fetch(API, {
                 method: 'POST',
@@ -116,7 +122,7 @@ export default class Login extends React.Component {
         this._getData();
         db.transaction( tx => {
             tx.executeSql(
-                "create table if not exists info (id integer primary key not null, grade_number int, mac_address text);",
+                "create table if not exists info (id integer primary key not null, grade_number text, mac_address text);",
                 null,
                 () => {
                     console.log('create success')

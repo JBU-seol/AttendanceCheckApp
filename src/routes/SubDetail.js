@@ -1,7 +1,8 @@
 import React from 'react';
-import {StyleSheet, View, Text, ScrollView, Dimensions} from 'react-native'
+import {StyleSheet, View, Text, ScrollView, Dimensions, Alert} from 'react-native'
 
-const API = "http://ec2-13-125-176-205.ap-northeast-2.compute.amazonaws.com:1234/members/week_list";
+const API = "http://ec2-3-35-28-254.ap-northeast-2.compute.amazonaws.com:1234/members/week_list";
+const API_check = "http://ec2-3-35-28-254.ap-northeast-2.compute.amazonaws.com:1234/members/check";
 const {width} = Dimensions.get("window");
 const DATA = [
     {
@@ -37,27 +38,52 @@ export default class SubDetail extends React.Component{
     }
 
     state = {
-        week : []
+        week : [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    }
+
+    checkAttendanceInfo = async() => {
+        try {
+            const lecture_name = this.props.navigation.state.params.lecture_name;
+            const grade_number = this.props.screenProps.code;
+            let response = await fetch(API_check, {
+                method: 'POST',
+                body: JSON.stringify({
+                    grade_number: grade_number,
+                    lecture_name: lecture_name
+                })
+            })
+            response.status;
+        }
+        catch (error) {
+            Alert.alert("error");
+        }
+        
     }
 
     getAttendanceInfo = async() => {
-        const lecture_name = this.props.navigation.state.params.lecture_name;
-        const grade_number = this.props.screenProps.code;
-        let response = await fetch(API, {
-            method : 'POST',
-            body : JSON.stringify({
-                lecture_name : lecture_name,
-                grade_number : grade_number
+        try {
+            const lecture_name = this.props.navigation.state.params.lecture_name;
+            const grade_number = this.props.screenProps.code;
+            let response = await fetch(API, {
+                method: 'POST',
+                body: JSON.stringify({
+                    lecture_name: lecture_name,
+                    grade_number: grade_number
+                })
             })
-        })
-        let responseJson = await response.json();
-        //console.log(responseJson);
-        this.setState({
-            week : responseJson.week
-        })
+            let responseJson = await response.json();
+            this.setState({
+                week: responseJson.week
+            })
+        }
+        catch (error) {
+            Alert.alert("error");
+        }
+        
     }
 
     componentDidMount() {
+        this.checkAttendanceInfo();
         this.getAttendanceInfo();
     }
 
@@ -69,22 +95,22 @@ export default class SubDetail extends React.Component{
         let daylist = [];
         let attOK = 0, attnotOK = 0;
         for( let i =0 ; i< week.length; i++){
-            if( week[i] === false) attnotOK++;
-            else if( week[i] === true) attOK++;
+            if( week[i] === 1) attnotOK++;
+            else attOK++;
         }
-        if ( lectureObj.LectureTime.day === "9월7일"){
+        if ( lectureObj.LectureTime.day === "09-07"){
             daylist = DATA[0].day
         }
-        else if( lectureObj.LectureTime.day === "9월8일"){
+        else if( lectureObj.LectureTime.day === "09-08"){
             daylist = DATA[1].day
         }
-        else if( lectureObj.LectureTime.day === "9월9일"){
+        else if( lectureObj.LectureTime.day === "09-09"){
             daylist = DATA[2].day
         }
-        else if( lectureObj.LectureTime.day === "9월10일"){
+        else if( lectureObj.LectureTime.day === "09-10"){
             daylist = DATA[3].day
         }
-        else if( lectureObj.LectureTime.day === "9월11일"){
+        else if( lectureObj.LectureTime.day === "09-11"){
             daylist = DATA[4].day
         }
         return (
@@ -106,7 +132,7 @@ export default class SubDetail extends React.Component{
                     </Text>
                 </View>
                 <View style={styles.detailcard}>
-                    <ScrollView style={styles.detailscroll}>
+                <ScrollView style={styles.detailscroll}>
                     <View style={styles.firstweek}>
                             <View style={styles.firstweektop}>
                                 <Text style={{fontSize: 20, fontWeight:"bold",
@@ -124,13 +150,19 @@ export default class SubDetail extends React.Component{
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
                                 {
-                                    this.state.week[0] && (
+                                    (this.state.week[0]===3) && (
                                         <Text style={styles.weekbottomtextborderOK}>
                                             출 석
                                         </Text>
                                     )
                                 }{
-                                    (!this.state.week[0]) && (
+                                    (this.state.week[0]===2) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            지 각
+                                        </Text>
+                                    )
+                                }{
+                                    (this.state.week[0]===1) && (
                                         <Text style={styles.weekbottomtextborder}>
                                             결 석
                                         </Text>
@@ -154,14 +186,21 @@ export default class SubDetail extends React.Component{
                                 <Text style={styles.weekbottomtext}>{daylist[1]}</Text>
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
+                                
                                 {
-                                    this.state.week[1] && (
+                                    (this.state.week[1]===3) && (
                                         <Text style={styles.weekbottomtextborderOK}>
                                             출 석
                                         </Text>
                                     )
                                 }{
-                                    (!this.state.week[1]) && (
+                                    (this.state.week[1]===2) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            지 각
+                                        </Text>
+                                    )
+                                }{
+                                    (this.state.week[1]===1) && (
                                         <Text style={styles.weekbottomtextborder}>
                                             결 석
                                         </Text>
@@ -186,13 +225,19 @@ export default class SubDetail extends React.Component{
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
                                 {
-                                    this.state.week[2] && (
+                                    (this.state.week[2]===3) && (
                                         <Text style={styles.weekbottomtextborderOK}>
                                             출 석
                                         </Text>
                                     )
                                 }{
-                                    (!this.state.week[2]) && (
+                                    (this.state.week[2]===2) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            지 각
+                                        </Text>
+                                    )
+                                }{
+                                    (this.state.week[2]===1) && (
                                         <Text style={styles.weekbottomtextborder}>
                                             결 석
                                         </Text>
@@ -217,13 +262,19 @@ export default class SubDetail extends React.Component{
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
                                 {
-                                    this.state.week[3] && (
+                                    (this.state.week[3]===3) && (
                                         <Text style={styles.weekbottomtextborderOK}>
                                             출 석
                                         </Text>
                                     )
                                 }{
-                                    (!this.state.week[3]) && (
+                                    (this.state.week[3]===2) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            지 각
+                                        </Text>
+                                    )
+                                }{
+                                    (this.state.week[3]===1) && (
                                         <Text style={styles.weekbottomtextborder}>
                                             결 석
                                         </Text>
@@ -248,13 +299,19 @@ export default class SubDetail extends React.Component{
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
                                 {
-                                    this.state.week[4] && (
+                                    (this.state.week[4]===3) && (
                                         <Text style={styles.weekbottomtextborderOK}>
                                             출 석
                                         </Text>
                                     )
                                 }{
-                                    (!this.state.week[4]) && (
+                                    (this.state.week[4]===2) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            지 각
+                                        </Text>
+                                    )
+                                }{
+                                    (this.state.week[4]===1) && (
                                         <Text style={styles.weekbottomtextborder}>
                                             결 석
                                         </Text>
@@ -279,13 +336,13 @@ export default class SubDetail extends React.Component{
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
                                 {
-                                    this.state.week[5] && (
+                                    (this.state.week[5]===3) && (
                                         <Text style={styles.weekbottomtextborderOK}>
                                             출 석
                                         </Text>
                                     )
                                 }{
-                                    (!this.state.week[5]) && (
+                                    (this.state.week[5]===1) && (
                                         <Text style={styles.weekbottomtextborder}>
                                             결 석
                                         </Text>
@@ -310,13 +367,19 @@ export default class SubDetail extends React.Component{
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
                                 {
-                                    this.state.week[6] && (
+                                    (this.state.week[6]===3) && (
                                         <Text style={styles.weekbottomtextborderOK}>
                                             출 석
                                         </Text>
                                     )
                                 }{
-                                    (!this.state.week[6]) && (
+                                    (this.state.week[6]===2) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            지 각
+                                        </Text>
+                                    )
+                                }{
+                                    (this.state.week[6]===1) && (
                                         <Text style={styles.weekbottomtextborder}>
                                             결 석
                                         </Text>
@@ -341,13 +404,19 @@ export default class SubDetail extends React.Component{
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
                                 {
-                                    this.state.week[7] && (
+                                    (this.state.week[7]===3) && (
                                         <Text style={styles.weekbottomtextborderOK}>
                                             출 석
                                         </Text>
                                     )
                                 }{
-                                    (!this.state.week[7]) && (
+                                    (this.state.week[7]===2) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            지 각
+                                        </Text>
+                                    )
+                                }{
+                                    (this.state.week[7]===1) && (
                                         <Text style={styles.weekbottomtextborder}>
                                             결 석
                                         </Text>
@@ -372,13 +441,19 @@ export default class SubDetail extends React.Component{
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
                                 {
-                                    this.state.week[8] && (
+                                    (this.state.week[8]===3) && (
                                         <Text style={styles.weekbottomtextborderOK}>
                                             출 석
                                         </Text>
                                     )
                                 }{
-                                    (!this.state.week[8]) && (
+                                    (this.state.week[8]===2) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            지 각
+                                        </Text>
+                                    )
+                                }{
+                                    (this.state.week[8]===1) && (
                                         <Text style={styles.weekbottomtextborder}>
                                             결 석
                                         </Text>
@@ -403,13 +478,19 @@ export default class SubDetail extends React.Component{
                                 <Text style={styles.weekbottomtext}>{lectureObj.LectureTime.start_time} ~
                                 {lectureObj.LectureTime.finish_time}</Text>
                                 {
-                                    this.state.week[9] && (
+                                    (this.state.week[9]===3) && (
                                         <Text style={styles.weekbottomtextborderOK}>
                                             출 석
                                         </Text>
                                     )
                                 }{
-                                    (!this.state.week[9]) && (
+                                    (this.state.week[9]===2) && (
+                                        <Text style={styles.weekbottomtextborder}>
+                                            지 각
+                                        </Text>
+                                    )
+                                }{
+                                    (this.state.week[9]===1) && (
                                         <Text style={styles.weekbottomtextborder}>
                                             결 석
                                         </Text>
